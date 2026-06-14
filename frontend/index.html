@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TikTok Scanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <div>
+        <div class="sidebar-title">TikTok Scanner</div>
+        <div class="sidebar-subtitle" id="sidebar-status-dot">● Loading…</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-label">Main</div>
+      <button class="nav-btn active" data-tab="dashboard">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </button>
+      <button class="nav-btn" data-tab="search">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Search videos
+      </button>
+
+      <div class="nav-label">Categories</div>
+      <button class="nav-btn" data-tab="categories">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a4 4 0 014-4z"/></svg>
+        All categories
+      </button>
+      <button class="nav-btn" data-tab="new-category">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+        New category
+      </button>
+
+      <div class="nav-label">System</div>
+      <button class="nav-btn" data-tab="logs">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Logs <span class="log-live-dot" id="log-live-dot" title="Live stream connected"></span>
+      </button>
+      <button class="nav-btn" data-tab="settings">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+        Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="pause-btn" id="pause-toggle">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        <span id="pause-label">Pause scanning</span>
+      </button>
+      <button class="theme-toggle" id="theme-toggle">
+        <svg id="theme-icon-moon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg id="theme-icon-sun" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <span id="theme-label">Dark mode</span>
+      </button>
+    </div>
+  </aside>
+
+  <div class="main-area">
+
+    <!-- DASHBOARD -->
+    <section class="tab-section active" id="tab-dashboard">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" id="scan-all-btn">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Scan all now
+          </button>
+          <button class="btn btn-ghost btn-sm" id="refresh-dash-btn">Refresh</button>
+        </div>
+      </div>
+      <div class="page-content">
+        <div class="status-bar" id="status-bar">
+          <div class="stat-card"><div class="stat-label">Scanning</div><div class="stat-value" id="s-scanning">—</div></div>
+          <div class="stat-card"><div class="stat-label">Last scan cycle</div><div class="stat-value" id="s-last-scan" style="font-size:.85rem">—</div></div>
+          <div class="stat-card"><div class="stat-label">Disk free</div><div class="stat-value" id="s-disk">—</div></div>
+          <div class="stat-card"><div class="stat-label">LLM backend</div><div class="stat-value" id="s-llm">—</div></div>
+          <div class="stat-card"><div class="stat-label">Scraper health</div><div class="stat-value" id="s-health">—</div></div>
+          <div class="stat-card"><div class="stat-label">Total matches</div><div class="stat-value" id="s-total-matches">—</div></div>
+        </div>
+
+        <!-- Charts row -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px" id="charts-row">
+          <div class="card">
+            <div class="card-header"><span class="card-title">Matches per category</span></div>
+            <div class="card-body" style="padding:14px">
+              <canvas id="chart-cats" height="200"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span class="card-title">Videos found (last 14 days)</span></div>
+            <div class="card-body" style="padding:14px">
+              <canvas id="chart-daily" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category quick-scan table -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Categories</span>
+            <button class="btn btn-secondary btn-sm" id="scan-all-btn2">Scan all</button>
+          </div>
+          <div id="dash-cat-table" style="overflow-x:auto"></div>
+        </div>
+        <div id="dash-feedback" style="margin-top:8px;font-size:.82rem;color:var(--text-muted);min-height:20px"></div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="tab-section" id="tab-search">
+      <div class="page-header"><h1>Search videos</h1></div>
+      <div class="page-content">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-body">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+              <input type="text" id="search-q" placeholder="Search title, author, tags, reason…" style="flex:1;min-width:200px">
+              <select id="search-cat" style="width:180px">
+                <option value="">All categories</option>
+              </select>
+              <select id="search-status" style="width:140px">
+                <option value="">All statuses</option>
+                <option value="downloaded">Downloaded</option>
+                <option value="matched">Matched</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <button class="btn btn-primary" id="search-btn">Search</button>
+            </div>
+            <div class="text-subtle" id="search-count"></div>
+          </div>
+        </div>
+        <div id="search-results"></div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="tab-section" id="tab-categories">
+      <div class="page-header">
+        <h1>Categories</h1>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" id="scan-all-cats-btn">Scan all</button>
+          <button class="btn btn-primary btn-sm" data-tab-link="new-category">
+            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
+            New
+          </button>
+        </div>
+      </div>
+      <div class="page-content">
+        <div class="category-list" id="categories-list"></div>
+      </div>
+    </section>
+
+    <!-- NEW / EDIT CATEGORY -->
+    <section class="tab-section" id="tab-new-category">
+      <div class="page-header">
+        <h1 id="form-page-title">New Category</h1>
+        <button class="btn btn-ghost btn-sm" id="cat-cancel" style="display:none">← Cancel</button>
+      </div>
+      <div class="page-content">
+        <div class="card">
+          <div class="card-body">
+            <form id="category-form">
+              <input type="hidden" id="cat-id">
+              <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" id="cat-name" required placeholder="e.g. JDM Cars">
+                <div class="form-hint">Used as the download folder name.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Search terms</label>
+                <input type="text" id="cat-terms" required placeholder="carsoftiktok, @topgear, search:rare jdm cars">
+                <div class="form-hint">Comma-separated. Use <code>#hashtag</code>, <code>@username</code>, or <code>search:phrase</code>.</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Match prompt</label>
+                <textarea id="cat-prompt" required rows="4" placeholder="Describe exactly what videos you want. Be specific — mention what to include and what to exclude."></textarea>
+                <div class="form-hint">The AI reads this to decide if each video is a match.</div>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" id="cat-enabled" checked>
+                <label for="cat-enabled">Include in automatic scans</label>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save category</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span class="card-title">Test prompt</span></div>
+          <div class="card-body">
+            <p class="text-subtle" style="margin-bottom:12px">Paste a TikTok URL to check if it would match the prompt above, without running a full scan.</p>
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input type="text" id="test-prompt-url" placeholder="https://www.tiktok.com/@user/video/…" style="flex:1">
+              <button class="btn btn-secondary" id="test-prompt-btn">Run test</button>
+            </div>
+            <div id="test-prompt-result"></div>
+          </div>
+        </div>
+
+        <div class="card" id="examples-box" style="display:none">
+          <div class="card-header"><span class="card-title">Example videos (few-shot)</span></div>
+          <div class="card-body">
+            <p class="text-subtle" style="margin-bottom:12px">Label real videos as match / not a match. The AI uses these on every scan — significantly improves accuracy for tricky prompts.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+              <input type="text" id="example-url" placeholder="https://www.tiktok.com/@user/video/…" style="flex:1;min-width:200px">
+              <select id="example-label" style="width:180px">
+                <option value="match">✓ This IS a match</option>
+                <option value="no_match">✗ This is NOT a match</option>
+              </select>
+              <button class="btn btn-secondary" id="add-example-btn">Add</button>
+            </div>
+            <div id="examples-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGS -->
+    <section class="tab-section" id="tab-logs">
+      <div class="page-header">
+        <h1>Logs</h1>
+        <div style="display:flex;gap:8px;align-items:center">
+          <span class="text-subtle" id="log-stream-status">connecting…</span>
+          <button class="btn btn-ghost btn-sm" id="clear-logs-btn">Clear display</button>
+          <button class="btn btn-secondary btn-sm" id="refresh-logs">Refresh</button>
+        </div>
+      </div>
+      <div class="page-content">
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+          <button class="log-filter-btn active" data-level="ALL">All</button>
+          <button class="log-filter-btn" data-level="INFO">Info</button>
+          <button class="log-filter-btn" data-level="WARN">Warn</button>
+          <button class="log-filter-btn" data-level="ERROR">Error</button>
+          <input type="text" id="log-search" placeholder="Filter logs…" style="flex:1;min-width:160px;max-width:300px">
+        </div>
+        <pre class="log-output" id="logs-output"></pre>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="tab-section" id="tab-settings">
+      <div class="page-header"><h1>Settings</h1></div>
+      <div class="page-content">
+        <form id="settings-form">
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">AI / LLM</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Provider</label>
+                <select id="llm-provider">
+                  <option value="ollama">Local — Ollama</option>
+                  <option value="api">API — OpenAI-compatible</option>
+                </select>
+              </div>
+              <div id="ollama-settings">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Ollama URL</label>
+                    <input type="text" id="ollama-url" placeholder="http://localhost:11434">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Model</label>
+                    <input type="text" id="ollama-model" placeholder="qwen2.5:14b">
+                    <div class="form-hint" id="ollama-models-hint"></div>
+                  </div>
+                </div>
+              </div>
+              <div id="api-settings" style="display:none">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">API Base URL</label>
+                    <input type="text" id="api-base-url" placeholder="https://api.openai.com/v1">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Model</label>
+                    <input type="text" id="api-model" placeholder="gpt-4o-mini">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">API Key</label>
+                  <input type="password" id="api-key" placeholder="Leave blank to keep existing">
+                </div>
+              </div>
+              <div style="margin-top:12px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                <button type="button" class="btn btn-secondary" id="test-connection">Test connection</button>
+                <div id="test-connection-result" class="text-subtle"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">Scraper</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Storage path</label>
+                <input type="text" id="storage-path">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cookies file path</label>
+                <input type="text" id="cookies-path" placeholder="/home/user/data/cookies.txt">
+                <div class="form-hint">Export from a TikTok-logged-in browser. Significantly helps with rate limiting and 0-result scans.</div>
+              </div>
+              <div class="settings-grid">
+                <div class="form-group">
+                  <label class="form-label">Scan interval (min)</label>
+                  <input type="number" id="scan-interval" min="1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Videos per term per scan</label>
+                  <input type="number" id="videos-per-scan" min="1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Parallel yt-dlp workers</label>
+                  <input type="number" id="scrape-concurrency" min="1" max="10">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Delay between requests (s)</label>
+                  <input type="number" id="request-delay" min="0" step="0.5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Retries on failure</label>
+                  <input type="number" id="discovery-retries" min="0" max="5">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Videos per LLM batch</label>
+                  <input type="number" id="llm-batch-size" min="1">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">Cache & Storage</span></div>
+            <div class="card-body">
+              <div class="settings-grid">
+                <div class="form-group">
+                  <label class="form-label">Cache lifetime (hours, 0=forever)</label>
+                  <input type="number" id="cache-ttl" min="0">
+                </div>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" id="delete-after-download">
+                <label for="delete-after-download">Delete server copy immediately after download</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">Ollama performance</span></div>
+            <div class="card-body">
+              <div class="checkbox-row" style="margin-bottom:12px">
+                <input type="checkbox" id="ollama-think">
+                <label for="ollama-think">Enable thinking / reasoning mode (slower, for qwen3-style models)</label>
+              </div>
+              <div class="settings-grid">
+                <div class="form-group">
+                  <label class="form-label">Context window (tokens)</label>
+                  <input type="number" id="ollama-num-ctx" min="256" step="256">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Max response (tokens)</label>
+                  <input type="number" id="ollama-num-predict" min="32" step="32">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Keep model in VRAM</label>
+                  <input type="text" id="ollama-keep-alive" placeholder="5m / 30s / -1 / 0">
+                </div>
+              </div>
+              <button type="button" class="btn btn-ghost btn-sm" id="apply-low-resource-preset">Apply low-resource preset</button>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">Notifications</span></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">Webhook URL</label>
+                <input type="text" id="webhook-url" placeholder="https://example.com/webhook">
+                <div class="form-hint">POSTs JSON on every new match — works with Discord, Slack, or any custom endpoint.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:16px">
+            <div class="card-header"><span class="card-title">System</span></div>
+            <div class="card-body">
+              <div class="checkbox-row" style="margin-bottom:8px">
+                <input type="checkbox" id="auto-update-ytdlp">
+                <label for="auto-update-ytdlp">Auto-update yt-dlp daily</label>
+              </div>
+              <div class="checkbox-row" style="margin-bottom:12px">
+                <input type="checkbox" id="start-on-boot">
+                <label for="start-on-boot">Start on server boot (systemd)</label>
+              </div>
+              <div class="form-hint" id="boot-toggle-hint" style="margin-bottom:14px"></div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button type="button" class="btn btn-secondary" id="update-ytdlp-now">Update yt-dlp</button>
+                <button type="button" class="btn btn-secondary" id="run-health-check">Health check</button>
+              </div>
+              <div class="form-hint mt-8" id="ytdlp-version-text"></div>
+              <div class="form-hint mt-8" id="health-check-text"></div>
+            </div>
+          </div>
+
+          <div class="form-actions" style="padding-bottom:32px">
+            <button type="submit" class="btn btn-primary">Save settings</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast-container" id="toast-container"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
